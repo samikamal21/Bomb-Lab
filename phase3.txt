@@ -1,0 +1,51 @@
+0000000000002711 <phase_3>:
+    2711:	f3 0f 1e fa          	endbr64 
+    2715:	48 83 ec 18          	sub    $0x18,%rsp
+    2719:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
+    2720:	00 00 
+    2722:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
+    2727:	31 c0                	xor    %eax,%eax
+    2729:	48 8d 4c 24 04       	lea    0x4(%rsp),%rcx
+    272e:	48 89 e2             	mov    %rsp,%rdx
+    2731:	48 8d 35 93 1a 00 00 	lea    0x1a93(%rip),%rsi        # 41cb <_IO_stdin_used+0x1cb>
+    2738:	e8 f3 fb ff ff       	call   2330 <__isoc99_sscanf@plt>
+    273d:	83 f8 01             	cmp    $0x1,%eax
+    2740:	7e 1a                	jle    275c <phase_3+0x4b>
+    2742:	83 3c 24 07          	cmpl   $0x7,(%rsp)
+    2746:	77 65                	ja     27ad <phase_3+0x9c>
+    2748:	8b 04 24             	mov    (%rsp),%eax
+    274b:	48 8d 15 82 1a 00 00 	lea    0x1a82(%rip),%rdx        # 41d4 <_IO_stdin_used+0x1d4>
+    2752:	48 63 04 82          	movslq (%rdx,%rax,4),%rax
+    2756:	48 01 d0             	add    %rdx,%rax
+    2759:	3e ff e0             	notrack jmp *%rax
+    275c:	e8 51 06 00 00       	call   2db2 <explode_bomb>
+    2761:	eb df                	jmp    2742 <phase_3+0x31>
+    2763:	b8 b0 03 00 00       	mov    $0x3b0,%eax
+    2768:	39 44 24 04          	cmp    %eax,0x4(%rsp)
+    276c:	75 52                	jne    27c0 <phase_3+0xaf>
+    276e:	48 8b 44 24 08       	mov    0x8(%rsp),%rax
+    2773:	64 48 2b 04 25 28 00 	sub    %fs:0x28,%rax
+    277a:	00 00 
+    277c:	75 49                	jne    27c7 <phase_3+0xb6>
+    277e:	48 83 c4 18          	add    $0x18,%rsp
+    2782:	c3                   	ret    
+    2783:	b8 69 03 00 00       	mov    $0x369,%eax
+    2788:	eb de                	jmp    2768 <phase_3+0x57>
+    278a:	b8 49 01 00 00       	mov    $0x149,%eax
+    278f:	eb d7                	jmp    2768 <phase_3+0x57>
+    2791:	b8 06 03 00 00       	mov    $0x306,%eax
+    2796:	eb d0                	jmp    2768 <phase_3+0x57>
+    2798:	b8 9a 01 00 00       	mov    $0x19a,%eax
+    279d:	eb c9                	jmp    2768 <phase_3+0x57>
+    279f:	b8 58 00 00 00       	mov    $0x58,%eax
+    27a4:	eb c2                	jmp    2768 <phase_3+0x57>
+    27a6:	b8 b5 03 00 00       	mov    $0x3b5,%eax
+    27ab:	eb bb                	jmp    2768 <phase_3+0x57>
+    27ad:	e8 00 06 00 00       	call   2db2 <explode_bomb>
+    27b2:	b8 00 00 00 00       	mov    $0x0,%eax
+    27b7:	eb af                	jmp    2768 <phase_3+0x57>
+    27b9:	b8 41 00 00 00       	mov    $0x41,%eax
+    27be:	eb a8                	jmp    2768 <phase_3+0x57>
+    27c0:	e8 ed 05 00 00       	call   2db2 <explode_bomb>
+    27c5:	eb a7                	jmp    276e <phase_3+0x5d>
+    27c7:	e8 b4 fa ff ff       	call   2280 <__stack_chk_fail@plt>

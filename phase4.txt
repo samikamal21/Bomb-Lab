@@ -1,0 +1,57 @@
+000000000000280d <phase_4>:
+    280d:	f3 0f 1e fa          	endbr64 
+    2811:	48 83 ec 18          	sub    $0x18,%rsp
+    2815:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
+    281c:	00 00 
+    281e:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
+    2823:	31 c0                	xor    %eax,%eax
+    2825:	48 8d 4c 24 04       	lea    0x4(%rsp),%rcx
+    282a:	48 89 e2             	mov    %rsp,%rdx
+    282d:	48 8d 35 97 19 00 00 	lea    0x1997(%rip),%rsi        # 41cb <_IO_stdin_used+0x1cb>
+    2834:	e8 f7 fa ff ff       	call   2330 <__isoc99_sscanf@plt>
+    2839:	83 f8 02             	cmp    $0x2,%eax
+    283c:	75 06                	jne    2844 <phase_4+0x37>
+    283e:	83 3c 24 0e          	cmpl   $0xe,(%rsp)
+    2842:	76 05                	jbe    2849 <phase_4+0x3c>
+    2844:	e8 69 05 00 00       	call   2db2 <explode_bomb>
+    2849:	ba 0e 00 00 00       	mov    $0xe,%edx
+    284e:	be 00 00 00 00       	mov    $0x0,%esi
+    2853:	8b 3c 24             	mov    (%rsp),%edi
+    2856:	e8 71 ff ff ff       	call   27cc <func4>
+    285b:	83 f8 06             	cmp    $0x6,%eax
+    285e:	75 07                	jne    2867 <phase_4+0x5a>
+    2860:	83 7c 24 04 06       	cmpl   $0x6,0x4(%rsp)
+    2865:	74 05                	je     286c <phase_4+0x5f>
+    2867:	e8 46 05 00 00       	call   2db2 <explode_bomb>
+    286c:	48 8b 44 24 08       	mov    0x8(%rsp),%rax
+    2871:	64 48 2b 04 25 28 00 	sub    %fs:0x28,%rax
+    2878:	00 00 
+    287a:	75 05                	jne    2881 <phase_4+0x74>
+    287c:	48 83 c4 18          	add    $0x18,%rsp
+    2880:	c3                   	ret    
+    2881:	e8 fa f9 ff ff       	call   2280 <__stack_chk_fail@plt>
+
+00000000000027cc <func4>:
+    27cc:	f3 0f 1e fa          	endbr64 
+    27d0:	48 83 ec 08          	sub    $0x8,%rsp
+    27d4:	89 d0                	mov    %edx,%eax
+    27d6:	29 f0                	sub    %esi,%eax
+    27d8:	89 c1                	mov    %eax,%ecx
+    27da:	c1 e9 1f             	shr    $0x1f,%ecx
+    27dd:	01 c1                	add    %eax,%ecx
+    27df:	d1 f9                	sar    %ecx
+    27e1:	01 f1                	add    %esi,%ecx
+    27e3:	39 f9                	cmp    %edi,%ecx
+    27e5:	7f 0c                	jg     27f3 <func4+0x27>
+    27e7:	b8 00 00 00 00       	mov    $0x0,%eax
+    27ec:	7c 11                	jl     27ff <func4+0x33>
+    27ee:	48 83 c4 08          	add    $0x8,%rsp
+    27f2:	c3                   	ret    
+    27f3:	8d 51 ff             	lea    -0x1(%rcx),%edx
+    27f6:	e8 d1 ff ff ff       	call   27cc <func4>
+    27fb:	01 c0                	add    %eax,%eax
+    27fd:	eb ef                	jmp    27ee <func4+0x22>
+    27ff:	8d 71 01             	lea    0x1(%rcx),%esi
+    2802:	e8 c5 ff ff ff       	call   27cc <func4>
+    2807:	8d 44 00 01          	lea    0x1(%rax,%rax,1),%eax
+    280b:	eb e1                	jmp    27ee <func4+0x22>

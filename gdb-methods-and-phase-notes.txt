@@ -1,0 +1,100 @@
+USEFUL METHODS GDB METHODS:
+gdb bomb -> opens gdb bugger
+
+break functionName-> break statement at function start (break phase_1)
+
+break *(hex value) -> adds break to a line
+
+stepi (si) -> will step to the next line but NOT execute it
+
+info r -> print all registers and values (find flags and register values here)
+
+ctr+c will quit the program
+
+quit -> kill gdb
+
+disas -> show asm code
+
+layout asm (MOST USEFUL METHOD TO VIEW ASSEMBLY CODE)
+
+nm -C <program name> -> view all loops and conditions in a program
+
+chmod +x <file name> -> allows us to run a file if permisison is denied
+
+info breakpoints -> see all breakpoints 
+
+x/s <register> -> prints string at memory address (ex: x/s $rdi) 
+
+x/d <register> -> prints the memory address in and int format (ex:  x/d $rdi)
+
+ni -> next instruction and skips over a function call
+
+print $<memory address (ex: print $eax)
+
+NOTES ABOUT PHASES:
+
+PHASE 1:
+It takes 1 int
+566 works because > 554 + a multiple of 6
+
+PHASE 2:
+It takes 6 ints (%d %d %d %d %d %d)
+rdi=54
+
+Trial: 1 6 16 31 51 76 (WORKED)
+
+PHASE 3: 
+It takes 2 ints (%d)
+First int has to be from 0-7
+$eax = 774
+Trial 1: 0 774  X
+Trial 2: 1 774  X
+Trial 3: 2 774  X
+Trail 4: 3 774  X
+Trial 5: 4 774  (WORKED)
+Trial 6: 5 774
+Trial 7: 6 774
+
+PHASE 4:
+Takes 2 ints (%d %d)
+First int has to be less than 14
+Second int has to 6 in order to defuse phase 4
+
+Trial 1: 0 6 X 
+Trial 2: 1 6 X 
+Trial 3: 2 6 X 
+Trial 4: 3 6 X 
+Trial 5: 4 6 X 
+Trial 6: 5 6 X 
+Trial 7: 6 6 (WORKED)
+
+PHASE 5:
+Takes 7 ints (%d %d %d %d %d %d %d)
+
+All 7 integers need to somehow output 1 when passed into fun5 to defuse phase 5
+
+
+Registers being used
+rsp
+rax
+eax
+rcx
+rdx
+rip
+rsi
+r9
+r8
+rdi stores inputs x/s/
+
+Trial 1: 1 2 3 4 5 6 7 X
+Trial 2: 7 6 5 4 3 2 1 X
+Trial 3: 5 8 4 2 5 9 3 X
+Trial 4: 1 2 3 4 5 6 6 X
+Trial 5: 1 2 3 4 5 0 0 X (did not jump and went to second return statement)
+
+
+
+
+
+
+
