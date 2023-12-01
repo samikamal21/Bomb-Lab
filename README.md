@@ -18,4 +18,7 @@ The compiled file of all possible strings that bomb.c stores.
 A text file with useful gdb methods to go through the bomb and my thought process and trials for defusing each phase.
 
 ## mysolutions.txt
-The text file of all the solutions for my particular bomb
+The text file of all the solutions for the bomb.
+
+## phase.txt files
+Individual text files that only show the phases of the bomb.
