@@ -31,7 +31,7 @@ ni -> next instruction and skips over a function call
 
 print $<memory address (ex: print $eax)
 
-NOTES ABOUT PHASES:
+NOTES ABOUT EACH PHASE:
 
 PHASE 1:
 It takes 1 int
@@ -73,28 +73,146 @@ Takes 7 ints (%d %d %d %d %d %d %d)
 
 All 7 integers need to somehow output 1 when passed into fun5 to defuse phase 5
 
-
-Registers being used
-rsp
-rax
-eax
-rcx
-rdx
-rip
-rsi
-r9
-r8
-rdi stores inputs x/s/
-
-Trial 1: 1 2 3 4 5 6 7 X
-Trial 2: 7 6 5 4 3 2 1 X
-Trial 3: 5 8 4 2 5 9 3 X
-Trial 4: 1 2 3 4 5 6 6 X
 Trial 5: 1 2 3 4 5 0 0 X (did not jump and went to second return statement)
 
+IMPORTANT NOTES:
+- 6th arugment has to be 0
+- 1st argument has to be less than 2nd argument
+- $eax has to equal 4th argument (ex of this working from trial 7 below was 3 7 2 7 5 0 7)
 
+Trial 1: 1 2 3 4 5 6 7
+288a: load edi (1) into eax (7), eax=7
+288c: Perform AND from stack and r9d (6), corresponds to 6th arguemnt => r9d has to be 0
 
+Trial 2: 1 2 3 4 5 0 7
+288a: load edi (1) into eax (1), eax=1
+288c: Perform AND from stack and r9d (0, which is 6th argument)
+2891: Did not jump since r9d (6th arugment) is 0
+2893: Compare esi (2nd argument) with edi (1st parameter)
+	esi = 2 & edi = 1
+2895: if esi > edi, jump to 28a1
+2897: Added 1 to r9d, r9d=1
+289b: Add edx (3rd argument) to eax
+	edx=3, eax=4
+289d: Compare eax (new value) with esi (2nd argument)
+	eax=4, esi=2
+289f: if eax > esi, jump back to 2897, which loops and increments r9d and adds edx (3rd argument) to eax
+	4(eax) > 2(esi), jump back to 289, r9d=2 & eax=7
+	Didn't jump for some reason
+28a1: Adds r9d (1) to r8d (5), so r8d=6
+28a4: Compares r8d with another value from stack
+28a9: Jump to 28bb if the two values are not equal.
+Failed
 
+Trial 3: 1 0 3 4 5 0 7
+288a: load edi (1) into eax (1), eax=1
+288c: Perform AND from stack and r9d (0, which is 6th argument)
+2891: Did not jump since r9d (6th arugment) is 0
+2893: Compare esi (2nd argument) with edi (1st parameter)
+2895: if esi (0) > edi (1), don't jump to 28a1
+28a1: Jumped, so add r9d (0) to r8d (5), r8d=5
+28a4: Compares r8d with another value from stack
+28a9: Jump to 28bb if the two values are not equal.
+Failed
 
+Trial 4: 1 2 3 4 -1 0 7
+288a: load edi (1) into eax (7), eax=1
+288c: Perform AND from stack and r9d (0, which is 6th argument)
+2891: Did not jump since r9d (6th arugment) is 0
+2893: Compare esi (2nd argument) with edi (1st parameter)
+2895: if esi (2) > edi (1), don't jump
+2897: Added 1 to r9d, r9d=1
+289b: Add edx (3rd argument) to eax
+	$eax=1, $edx=3, $eax=4
+289d: Compare eax (new value) with esi (2nd argument)
+	$eax=4, $esi=2
+289f: if eax > esi, jump back to 2897, which loops and increments r9d and adds edx (3rd argument) to eax
+	4(eax) > 2(esi), jump back to 2897, r9d=2 & eax=7
+	Didn't jump for some reason (I think it may be other way around)
+Failed
 
+Trial 5: 4 8 3 8 -1 0 7, Note: 289f should have been <, and I figured it out in this trial 
+288a: load edi (4) into eax (7), eax=4
+288c: Perform AND from stack and r9d (0, which is 6th argument)
+2891: Did not jump since r9d (6th arugment) is 0
+2893: Compare esi (2nd argument) with edi (1st parameter)
+2895: if esi (8) > edi (4), don't jump
+2897: Added 1 to r9d, r9d=1
+289b: Add edx (3rd argument) to eax
+	$eax=4, $edx=3 => $eax=7
+289d: Compare eax (new value) with esi (2nd argument)
+	$eax=7, $esi=8
+289f: if eax < esi, jump back to 2897, which loops and increments r9d and adds edx (3rd argument) to eax
+	7(eax) > 8(esi), jump back to 2897, r9d=2 & eax=7
+2897: Added 1 to rd9, rd9=2 (loop counter = 2)
+289b: Add edx (3rd argument) to eax
+	$eax=7, $edx=3, $eax=10
+289d: Compare eax (new value) with esi (2nd argument)
+	$eax=10, $esi=2
+289f: if eax < esi, jump back to 2897, which loops and increments r9d and adds edx (3rd argument) to eax
+	10(eax) > 8(esi), jump back to 2897, r9d=2 & eax=10
+	Don't jump since eax > esi (10 > 8)
+28a1: Adds r9d (2) to r8d (-1), so r8d=1
+28a4: Compares r8d with rsp
+	r8d=1, rsp=1431660877
+28a9: Jump to 28bb if the two values are not equal.
+Failed
 
+Trial 6: 3 7 2 4 5 0 7
+288a: load edi (3) into eax (7), eax=3
+288c: Perform AND from stack (rsp) and r9d (0, which is 6th argument), rsp=1431660877, r8d=5
+2891: Did not jump since r9d (6th arugment) is 0
+2893: Compare esi (2nd argument) with edi (1st parameter)
+2895: if esi (7) > edi (3), don't jump
+2897: Added 1 to rd9, rd9=2 (loop counter = 1), r8d=5
+289b: Add edx (3rd argument) to eax
+	$eax=3, $edx=2 => $eax=5, r8d=5
+289d: Compare eax (new value) with esi (2nd argument), r8d=5
+	$eax=5, $esi=7
+289f: if eax < esi, jump back to 2897, which loops and increments r9d and adds edx (3rd argument) to eax
+	5(eax) < 7(esi), jump back to 2897, r9d=2 & eax=10, r8d=5
+	Don't jump since eax > esi (10 > 8)
+2897: Added 1 to rd9, rd9=2 (loop counter = 2), r8d=5
+289b: Add edx (3rd argument) to eax
+	$eax=5, $edx=2 => $eax=7, r8d=5
+289d: Compare eax (new value) with esi (2nd argument), r8d=5
+	$eax=7, $esi=7
+289f: if eax < esi, jump back to 2897, which loops and increments r9d and adds edx (3rd argument) to eax
+	7(eax) < 7(esi), jump back to 2897, r9d=2 & eax=7, r8d=5
+	Didn't jump
+28a1: Add r9d (2) to r8d (5), $r8d=7
+28a4: Compare r8d to (0x8)($rsp)
+28a9: Did not jump
+28ab: Check if eax = ecx (4th argument)
+	eax (7) = ecx (4)
+FAILED
+
+Trial 7: 3 7 2 7 5 0 7
+288a: load edi (3) into eax (7), eax=3
+288c: Perform AND from stack (rsp) and r9d (0, which is 6th argument), rsp=1431660877, r8d=5
+2891: Did not jump since r9d (6th arugment) is 0
+2893: Compare esi (2nd argument) with edi (1st parameter)
+2895: if esi (7) > edi (3), don't jump
+2897: Added 1 to rd9, rd9=2 (loop counter = 1), r8d=5
+289b: Add edx (3rd argument) to eax
+	$eax=3, $edx=2 => $eax=5, r8d=5
+289d: Compare eax (new value) with esi (2nd argument), r8d=5
+	$eax=5, $esi=7
+289f: if eax < esi, jump back to 2897, which loops and increments r9d and adds edx (3rd argument) to eax
+	5(eax) < 7(esi), jump back to 2897, r9d=2 & eax=10, r8d=5
+	Don't jump since eax > esi (10 > 8)
+2897: Added 1 to rd9, rd9=2 (loop counter = 2), r8d=5
+289b: Add edx (3rd argument) to eax
+	$eax=5, $edx=2 => $eax=7, r8d=5
+289d: Compare eax (new value) with esi (2nd argument), r8d=5
+	$eax=7, $esi=7
+289f: if eax < esi, jump back to 2897, which loops and increments r9d and adds edx (3rd argument) to eax
+	7(eax) < 7(esi), jump back to 2897, r9d=2 & eax=7, r8d=5
+	Didn't jump
+28a1: Add r9d (2) to r8d (5), $r8d=7
+28a4: Compare r8d to (0x8)($rsp)
+28a9: Did not jump
+28ab: Check if eax = ecx (4th argument)
+	eax (7) = ecx (7)
+28af: Moved 1 into eax, which means fun5 succeeded and return 1 
+WORKED
