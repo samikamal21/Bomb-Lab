@@ -71,3 +71,67 @@
     28ba:	c3                   	ret    
     28bb:	b8 fe ff ff ff       	mov    $0xfffffffe,%eax
     28c0:	c3                   	ret    
+
+What Fun 5 is doing 
+2886: endbr64 
+    // End branch: A mitigation against certain types of attacks; marks a valid jump target.
+
+288a: mov %edi, %eax
+    // Move the value from %edi (first parameter) into %eax. This sets up %eax for further operations.
+
+288c: and 0x8(%rsp), %r9d
+    // Perform a bitwise AND between a value from the stack (possibly an input or a temporary value) and %r9d.
+
+2891: jne 28b5 <fun5+0x2f>
+    // Jump to the address 28b5 if the result of the AND operation is not zero (i.e., if %r9d is not zero after the AND).
+
+2893: cmp %esi, %edi
+    // Compare the second parameter (%esi) with the first parameter (%edi).
+
+2895: jge 28a1 <fun5+0x1b>
+    // Jump to 28a1 if %esi is greater than or equal to %edi.
+
+2897: add $0x1, %r9d
+    // Increment %r9d by 1.
+
+289b: add %edx, %eax
+    // Add the value in %edx (third parameter) to %eax.
+
+289d: cmp %eax, %esi
+    // Compare the updated value of %eax with %esi.
+
+289f: jg 2897 <fun5+0x11>
+    // If %eax is less than %esi, jump back to 2897, creating a loop that increments %r9d and adds %edx to %eax.
+
+28a1: add %r9d, %r8d
+    // Add the value of %r9d to %r8d.
+
+28a4: cmp 0x8(%rsp), %r8d
+    // Compare the value of %r8d with another value from the stack.
+
+28a9: jne 28bb <fun5+0x35>
+    // Jump to 28bb if the two values are not equal.
+
+28ab: cmp %eax, %ecx
+    // Compare the value of %eax with %ecx (fourth parameter).
+
+28ad: jne 28bb <fun5+0x35>
+    // Jump to 28bb if %eax is not equal to %ecx.
+
+28af: mov $0x1, %eax
+    // Move the literal value 1 into %eax. This typically indicates a successful condition.
+
+28b4: ret
+    // Return from the function. The value in %eax is used as the return value.
+
+28b5: mov $0xfffffffe, %eax
+    // Move -2 (in hexadecimal representation) into %eax, likely indicating a failure condition.
+
+28ba: ret
+    // Return from the function.
+
+28bb: mov $0xfffffffe, %eax
+    // Similar to 28b5, move -2 into %eax, indicating a failure condition.
+
+28c0: ret
+    // Return from the function.
