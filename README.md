@@ -21,4 +21,4 @@ A text file with useful gdb methods to go through the bomb and my thought proces
 The text file of all the solutions for bomb 15. 
 
 ## phase.txt files
-Individual text files that only show the phases of the bomb.
+Individual text files that only show the individual phases of the bomb.
