@@ -31,7 +31,7 @@ ni -> next instruction and skips over a function call
 
 print $<memory address (ex: print $eax)
 
-NOTES ABOUT EACH PHASE:
+NOTES ABOUT PHASE:
 
 PHASE 1:
 It takes 1 int
@@ -83,6 +83,7 @@ IMPORTANT NOTES:
 Trial 1: 1 2 3 4 5 6 7
 288a: load edi (1) into eax (7), eax=7
 288c: Perform AND from stack and r9d (6), corresponds to 6th arguemnt => r9d has to be 0
+FAILED
 
 Trial 2: 1 2 3 4 5 0 7
 288a: load edi (1) into eax (1), eax=1
@@ -102,7 +103,7 @@ Trial 2: 1 2 3 4 5 0 7
 28a1: Adds r9d (1) to r8d (5), so r8d=6
 28a4: Compares r8d with another value from stack
 28a9: Jump to 28bb if the two values are not equal.
-Failed
+FAILED
 
 Trial 3: 1 0 3 4 5 0 7
 288a: load edi (1) into eax (1), eax=1
@@ -113,7 +114,7 @@ Trial 3: 1 0 3 4 5 0 7
 28a1: Jumped, so add r9d (0) to r8d (5), r8d=5
 28a4: Compares r8d with another value from stack
 28a9: Jump to 28bb if the two values are not equal.
-Failed
+FAILED
 
 Trial 4: 1 2 3 4 -1 0 7
 288a: load edi (1) into eax (7), eax=1
@@ -129,7 +130,7 @@ Trial 4: 1 2 3 4 -1 0 7
 289f: if eax > esi, jump back to 2897, which loops and increments r9d and adds edx (3rd argument) to eax
 	4(eax) > 2(esi), jump back to 2897, r9d=2 & eax=7
 	Didn't jump for some reason (I think it may be other way around)
-Failed
+FAILED
 
 Trial 5: 4 8 3 8 -1 0 7, Note: 289f should have been <, and I figured it out in this trial 
 288a: load edi (4) into eax (7), eax=4
@@ -156,7 +157,7 @@ Trial 5: 4 8 3 8 -1 0 7, Note: 289f should have been <, and I figured it out in 
 28a4: Compares r8d with rsp
 	r8d=1, rsp=1431660877
 28a9: Jump to 28bb if the two values are not equal.
-Failed
+FAILED
 
 Trial 6: 3 7 2 4 5 0 7
 288a: load edi (3) into eax (7), eax=3
@@ -215,4 +216,4 @@ Trial 7: 3 7 2 7 5 0 7
 28ab: Check if eax = ecx (4th argument)
 	eax (7) = ecx (7)
 28af: Moved 1 into eax, which means fun5 succeeded and return 1 
-WORKED
+PASSED
