@@ -72,7 +72,7 @@
     28bb:	b8 fe ff ff ff       	mov    $0xfffffffe,%eax
     28c0:	c3                   	ret    
 
-What Fun 5 is doing 
+What fun5 is doing:
 2886: endbr64 
     // End branch: A mitigation against certain types of attacks; marks a valid jump target.
 
