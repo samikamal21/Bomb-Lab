@@ -29,9 +29,9 @@ x/d <register> -> prints the memory address in and int format (ex:  x/d $rdi)
 
 ni -> next instruction and skips over a function call
 
-print $<memory address (ex: print $eax)
+p $<register> -> prints value at register (ex: p$eax)
 
-NOTES ABOUT PHASE:
+NOTES ABOUT EACH PHASE:
 
 PHASE 1:
 It takes 1 int
