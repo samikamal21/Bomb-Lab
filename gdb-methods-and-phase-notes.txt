@@ -217,3 +217,13 @@ Trial 7: 3 7 2 7 5 0 7
 	eax (7) = ecx (7)
 28af: Moved 1 into eax, which means fun5 succeeded and return 1 
 PASSED
+
+SECRET PHASE:
+Important Notes:
+- Write DangerousWords after your input in PHASE 2 to trigger.
+- read_line method can explode bomb so make sure to add breakpoint there .
+
+Trial 1: 1 
+WORKED
+
+Was a lucky guess. 
