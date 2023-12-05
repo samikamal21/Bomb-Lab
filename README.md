@@ -15,10 +15,16 @@ The compiled assembly text file of bomb.c
 The compiled file of all possible strings that bomb.c stores.
 
 ## gdb-methods-and-phase-notes
-A text file with useful gdb methods to go through the bomb and my thought process and trials for defusing each phase.
+A text file with useful gdb methods to go through the bomb, my thought process, and trials for defusing each phase.
 
 ## mysolution.txt
-The text file of all the solutions for bomb 15. 
+The text file of all the solutions for my bomb. The solution goes in the following order:
+* Phase 1
+* Phase 2
+* Secret Phase
+* Phase 3
+* Phase 4
+* Phase 5
 
 ## phase.txt files
 Individual text files that only show the individual phases of the bomb.
