@@ -1896,5 +1896,3 @@ Disassembly of section .fini:
     3be0:	48 83 ec 08          	sub    $0x8,%rsp
     3be4:	48 83 c4 08          	add    $0x8,%rsp
     3be8:	c3                   	ret    
-sk2404@ilab1:~/Desktop/bomb15$ 
-
