@@ -221,7 +221,9 @@ PASSED
 SECRET PHASE:
 Important Notes:
 - Write DangerousWords after your input in PHASE 2 to trigger.
-- read_line method can explode bomb so make sure to add breakpoint there .
+- read_line method can explode bomb so make sure to add breakpoint there.
+- Takes 1 int.
+- fun6 needs to return 0 to defuse secret phase.
 
 Trial 1: 1 
 WORKED
